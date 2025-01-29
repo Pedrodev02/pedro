@@ -9,7 +9,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Altura mínima da tela */
+            min-height: 100vh;
             background: linear-gradient(to right, #fff8e1, #ffd54f); /* Fundo amarelo */
             color: #5a3e36;
             font-family: 'Times New Roman', serif;
@@ -30,8 +30,8 @@
             transform: scale(0.8);
             transition: opacity 1s ease-in-out, transform 1s ease-in-out;
             width: 100%;
-            max-height: 90vh; /* Limita a altura da carta para não ultrapassar a tela */
-            overflow-y: auto; /* Permite rolagem interna da carta */
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         h1 {
@@ -62,6 +62,10 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
+            width: 80%; /* Garante que o botão ocupe uma maior área */
+            max-width: 500px; /* Limita a largura máxima do botão */
+            text-align: center; /* Centraliza o texto */
+            pointer-events: auto; /* Garante que o botão responda ao toque e clique */
         }
 
         .botao:hover {
@@ -155,7 +159,7 @@
     </style>
 </head>
 <body>
-    <button class="botao" onclick="mostrarCarta()">Clique aqui para abrir sua carta 💌</button>
+    <button class="botao" id="botao" onclick="mostrarCarta()">Clique aqui para abrir sua carta 💌</button>
     <div class="container" id="carta">
         <h1>Para Meu Amor 💖</h1>
         <p>Hoje, mais uma vez, eu me pego pensando em como nossa relação é preciosa para mim. Você é a pessoa mais importante da minha vida, e não consigo imaginar um dia sequer sem você ao meu lado. Por isso, mesmo que às vezes nossos caminhos se cruzem com desentendimentos, quero que saiba que o meu maior desejo é sempre estar bem contigo.</p>
@@ -168,9 +172,9 @@
     <script>
         function mostrarCarta() {
             let carta = document.getElementById('carta');
-            let botao = document.querySelector('.botao');
+            let botao = document.getElementById('botao');
 
-            // Esconde o botão
+            // Esconde o botão ao ser clicado
             botao.style.display = 'none';
             
             // Exibe a carta com animação
