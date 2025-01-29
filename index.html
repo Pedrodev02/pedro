@@ -8,30 +8,16 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Mudado para começar no topo */
-            min-height: 100vh; /* Garante que a altura mínima seja 100% da tela */
-            background: linear-gradient(to right, #fff8e1, #ffd54f);
+            align-items: center;
+            min-height: 100vh; /* Altura mínima da tela */
+            background: linear-gradient(to right, #fff8e1, #ffd54f); /* Fundo amarelo */
             color: #5a3e36;
             font-family: 'Times New Roman', serif;
             text-align: center;
-            padding: 20px;
             margin: 0;
-            position: relative;
-            padding-top: 50px; /* Espaço superior para evitar que o conteúdo saia da tela */
-            overflow-y: auto; /* Permite rolagem vertical */
-        }
-
-        /* Girassóis de fundo */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/soft-circle-scales.png');
-            opacity: 0.3;
-            z-index: -1;
+            padding: 0;
+            overflow: hidden;
+            flex-direction: column;
         }
 
         .container {
@@ -43,12 +29,13 @@
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-            width: 90%;
-            margin-top: 30px;
+            width: 100%;
+            max-height: 90vh; /* Limita a altura da carta para não ultrapassar a tela */
+            overflow-y: auto; /* Permite rolagem interna da carta */
         }
 
         h1 {
-            font-size: 2em;
+            font-size: 2.5em;
             margin-bottom: 20px;
         }
 
@@ -60,34 +47,26 @@
         .assinatura {
             margin-top: 20px;
             font-style: italic;
-            font-size: 1em;
+            font-size: 1.2em;
         }
 
         .botao {
             background: #6b1e23;
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 1.1em;
+            padding: 20px 40px;
+            font-size: 2em;
             cursor: pointer;
             border-radius: 10px;
-            margin-top: 15px;
             transition: background 0.3s, transform 0.3s;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: aparecerBotao 1s forwards 0.5s;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .botao:hover {
             background: #a8324e;
-            transform: scale(1.05);
-        }
-
-        @keyframes aparecerBotao {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            transform: scale(1.1);
         }
 
         /* Efeito de corações ao clicar */
@@ -126,15 +105,22 @@
             }
         }
 
+        @keyframes aparecerBotao {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Media queries para responsividade */
         @media (max-width: 768px) {
             .container {
-                width: 80%;
-                padding: 20px;
+                width: 85%;
+                padding: 25px;
             }
 
             h1 {
-                font-size: 1.8em;
+                font-size: 2em;
             }
 
             p {
@@ -142,15 +128,15 @@
             }
 
             .botao {
-                font-size: 1em;
-                padding: 8px 16px;
+                font-size: 1.8em;
+                padding: 15px 30px;
             }
         }
 
         @media (max-width: 480px) {
             .container {
                 width: 90%;
-                padding: 15px;
+                padding: 20px;
             }
 
             h1 {
@@ -162,8 +148,8 @@
             }
 
             .botao {
-                font-size: 0.9em;
-                padding: 6px 12px;
+                font-size: 1.6em;
+                padding: 15px 25px;
             }
         }
     </style>
@@ -176,12 +162,18 @@
         <p>Eu sei que não podemos dormir brigados, como a Bíblia nos ensina. E, mesmo que eu não esteja errado, quero pedir perdão por qualquer momento em que minhas palavras ou ações possam ter te magoado. Não é orgulho que move o meu coração, mas sim o amor que sinto por você. E esse amor me diz que, acima de qualquer coisa, o que importa é a nossa paz, o nosso respeito e a nossa união.</p>
         <p>Você é a pessoa com quem eu escolhi compartilhar minha vida, e não quero que nada, nem mesmo uma discussão, tire a beleza do que construímos juntos. Peço que você me perdoe se, em algum momento, eu não soube expressar o quanto você significa para mim. Eu te amo mais do que as palavras podem dizer, e quero que cada dia ao seu lado seja repleto de amor, compreensão e cumplicidade.</p>
         <p>Vamos sempre nos lembrar de que somos um time, e que juntos podemos superar qualquer desafio. Hoje, eu escolho o "nós" acima de tudo. Escolho você, o nosso amor e a nossa felicidade.</p>
-        <p class="assinatura">Com todo o meu amor e carinho.</p>
+        <p class="assinatura">Com todo o meu amor e carinho,</p>
         <p class="assinatura">Seu eterno apaixonado ❤️</p>
     </div>
     <script>
         function mostrarCarta() {
             let carta = document.getElementById('carta');
+            let botao = document.querySelector('.botao');
+
+            // Esconde o botão
+            botao.style.display = 'none';
+            
+            // Exibe a carta com animação
             carta.style.opacity = '1';
             carta.style.transform = 'scale(1)';
 
