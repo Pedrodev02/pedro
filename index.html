@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Minha Namorada</title>
+    <style>
+        /* CSS */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #121212;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .intro-container {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            background: #121212;
+            animation: fade-in 2s;
+            text-align: center;
+        }
+
+        .texto-intro {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .foto-intro {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            object-fit: cover;
+        }
+
+        .fade-out {
+            animation: fade-out 1s forwards;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade-out {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .quiz {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .pergunta {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: calc(100% - 22px);
+            border: 1px solid #333;
+            border-radius: 5px;
+            outline: none;
+            margin-bottom: 10px;
+            background: #2b2b2b;
+            color: white;
+        }
+
+        button {
+            background-color: #ff6f91;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff3b6f;
+        }
+
+        .mensagem {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .coracao {
+            position: absolute;
+            font-size: 24px;
+            color: red;
+            animation: subir 2s ease-out forwards;
+        }
+
+        @keyframes subir {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-200px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // JavaScript
+        const body = document.querySelector('body');
+
+        function exibirIntroducao() {
+            const introContainer = document.createElement('div');
+            introContainer.classList.add('intro-container');
+
+            const textoIntro = document.createElement('p');
+            textoIntro.textContent = 'Para a pessoa mais especial da minha vida ❤';
+            textoIntro.classList.add('texto-intro');
+            introContainer.appendChild(textoIntro);
+
+            const fotoIntro = document.createElement('img');
+            fotoIntro.src = 'sua-foto.jpg'; // Substitua pelo caminho da imagem
+            fotoIntro.classList.add('foto-intro');
+            introContainer.appendChild(fotoIntro);
+
+            body.appendChild(introContainer);
+
+            introContainer.addEventListener('click', criarCoracao);
+
+            setTimeout(() => {
+                introContainer.classList.add('fade-out');
+                setTimeout(() => {
+                    introContainer.remove();
+                    iniciarQuiz();
+                }, 1000);
+            }, 5000);
+        }
+
+        function criarCoracao(e) {
+            const coracao = document.createElement('span');
+            coracao.classList.add('coracao');
+            coracao.textContent = '❤';
+            coracao.style.left = `${e.clientX}px`;
+            coracao.style.top = `${e.clientY}px`;
+            body.appendChild(coracao);
+
+            setTimeout(() => coracao.remove(), 2000);
+        }
+
+        function criarQuiz() {
+            const quizContainer = document.createElement('div');
+            quizContainer.classList.add('quiz');
+
+            const perguntas = [
+                {
+                    pergunta: 'Qual é a nossa música favorita?',
+                    resposta: 'Perfect'
+                },
+                {
+                    pergunta: 'Onde nos conhecemos?',
+                    resposta: 'Praia'
+                },
+                {
+                    pergunta: 'Qual é a minha cor favorita?',
+                    resposta: 'Azul'
+                }
+            ];
+
+            perguntas.forEach((item, index) => {
+                const perguntaDiv = document.createElement('div');
+                perguntaDiv.classList.add('pergunta');
+
+                const perguntaTexto = document.createElement('p');
+                perguntaTexto.textContent = item.pergunta;
+                perguntaDiv.appendChild(perguntaTexto);
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'Digite sua resposta';
+                input.dataset.index = index;
+                perguntaDiv.appendChild(input);
+
+                const botao = document.createElement('button');
+                botao.textContent = 'Responder';
+                botao.addEventListener('click', () => verificarResposta(input, item.resposta));
+                perguntaDiv.appendChild(botao);
+
+                quizContainer.appendChild(perguntaDiv);
+            });
+
+            body.appendChild(quizContainer);
+        }
+
+        function verificarResposta(input, respostaCerta) {
+            const mensagem = document.createElement('p');
+            mensagem.classList.add('mensagem');
+
+            if (input.value.trim().toLowerCase() === respostaCerta.toLowerCase()) {
+                mensagem.textContent = 'Você acertou! ❤';
+                mensagem.style.color = 'green';
+            } else {
+                mensagem.textContent = 'Tente novamente!';
+                mensagem.style.color = 'red';
+            }
+
+            input.parentNode.appendChild(mensagem);
+            setTimeout(() => mensagem.remove(), 2000);
+        }
+
+        window.onload = () => {
+            exibirIntroducao();
+        };
+
+        function iniciarQuiz() {
+            criarQuiz();
+        }
+    </script>
+</body>
+</html>
