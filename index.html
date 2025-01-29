@@ -195,6 +195,10 @@
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 1000);
         }
+
+        // Garantir que o clique funcione bem no mobile
+        document.getElementById("botao").addEventListener("touchstart", mostrarCarta);
     </script>
 </body>
 </html>
+
