@@ -5,33 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carta para Meu Amor</title>
     <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos gerais */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(to right, #fff8e1, #ffd54f); /* Fundo amarelo */
-            color: #5a3e36;
+            background: linear-gradient(to right, #fff8e1, #ffd54f);
             font-family: 'Times New Roman', serif;
+            color: #5a3e36;
             text-align: center;
-            margin: 0;
-            padding: 0;
             overflow: hidden;
-            flex-direction: column;
         }
 
-        .container {
+        /* Botão */
+        .botao {
+            background: #6b1e23;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 2em;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+
+        .botao:hover {
+            background: #a8324e;
+        }
+
+        /* Carta */
+        .carta {
             background: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
             max-width: 500px;
+            width: 90%;
+            max-height: 80vh; /* Altura máxima da carta */
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            overflow-y: auto; /* Adiciona rolagem vertical */
+        }
+
+        .carta.visivel {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
         }
 
         h1 {
@@ -50,30 +81,7 @@
             font-size: 1.2em;
         }
 
-        .botao {
-            background: #6b1e23;
-            color: white;
-            border: none;
-            padding: 20px 40px;
-            font-size: 2em;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: background 0.3s, transform 0.3s;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 80%; /* Garante que o botão ocupe uma maior área */
-            max-width: 500px; /* Limita a largura máxima do botão */
-            text-align: center; /* Centraliza o texto */
-            pointer-events: auto; /* Garante que o botão responda ao toque e clique */
-        }
-
-        .botao:hover {
-            background: #a8324e;
-            transform: scale(1.1);
-        }
-
-        /* Efeito de corações ao clicar */
+        /* Corações */
         .heart {
             position: absolute;
             width: 20px;
@@ -83,7 +91,8 @@
             animation: float 1s ease-out;
         }
 
-        .heart::before, .heart::after {
+        .heart::before,
+        .heart::after {
             content: '';
             position: absolute;
             width: 20px;
@@ -109,17 +118,14 @@
             }
         }
 
-        @keyframes aparecerBotao {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Media queries para responsividade */
+        /* Responsividade */
         @media (max-width: 768px) {
-            .container {
-                width: 85%;
+            .botao {
+                font-size: 1.8em;
+                padding: 15px 30px;
+            }
+
+            .carta {
                 padding: 25px;
             }
 
@@ -130,16 +136,15 @@
             p {
                 font-size: 1em;
             }
-
-            .botao {
-                font-size: 1.8em;
-                padding: 15px 30px;
-            }
         }
 
         @media (max-width: 480px) {
-            .container {
-                width: 90%;
+            .botao {
+                font-size: 1.6em;
+                padding: 15px 25px;
+            }
+
+            .carta {
                 padding: 20px;
             }
 
@@ -150,17 +155,12 @@
             p {
                 font-size: 0.9em;
             }
-
-            .botao {
-                font-size: 1.6em;
-                padding: 15px 25px;
-            }
         }
     </style>
 </head>
 <body>
-    <button class="botao" id="botao" onclick="mostrarCarta()">Clique aqui para abrir sua carta 💌</button>
-    <div class="container" id="carta">
+    <button class="botao" id="botao">Clique aqui para abrir sua carta 💌</button>
+    <div class="carta" id="carta">
         <h1>Para Meu Amor 💖</h1>
         <p>Hoje, mais uma vez, eu me pego pensando em como nossa relação é preciosa para mim. Você é a pessoa mais importante da minha vida, e não consigo imaginar um dia sequer sem você ao meu lado. Por isso, mesmo que às vezes nossos caminhos se cruzem com desentendimentos, quero que saiba que o meu maior desejo é sempre estar bem contigo.</p>
         <p>Eu sei que não podemos dormir brigados, como a Bíblia nos ensina. E, mesmo que eu não esteja errado, quero pedir perdão por qualquer momento em que minhas palavras ou ações possam ter te magoado. Não é orgulho que move o meu coração, mas sim o amor que sinto por você. E esse amor me diz que, acima de qualquer coisa, o que importa é a nossa paz, o nosso respeito e a nossa união.</p>
@@ -169,36 +169,39 @@
         <p class="assinatura">Com todo o meu amor e carinho,</p>
         <p class="assinatura">Seu eterno apaixonado ❤️</p>
     </div>
+
     <script>
+        // Elementos
+        const botao = document.getElementById("botao");
+        const carta = document.getElementById("carta");
+
+        // Função para mostrar a carta
         function mostrarCarta() {
-            let carta = document.getElementById('carta');
-            let botao = document.getElementById('botao');
+            // Esconde o botão
+            botao.style.display = "none";
 
-            // Esconde o botão ao ser clicado
-            botao.style.display = 'none';
-            
-            // Exibe a carta com animação
-            carta.style.opacity = '1';
-            carta.style.transform = 'scale(1)';
+            // Mostra a carta com animação
+            carta.classList.add("visivel");
 
-            // Adiciona corações ao clicar
+            // Adiciona corações
             for (let i = 0; i < 10; i++) {
                 criarCoracao();
             }
         }
 
+        // Função para criar corações
         function criarCoracao() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
             heart.style.left = `${Math.random() * 100}vw`;
             heart.style.top = `${Math.random() * 100}vh`;
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 1000);
         }
 
-        // Garantir que o clique funcione bem no mobile
-        document.getElementById("botao").addEventListener("touchstart", mostrarCarta);
+        // Eventos
+        botao.addEventListener("click", mostrarCarta);
+        botao.addEventListener("touchstart", mostrarCarta);
     </script>
 </body>
 </html>
-
